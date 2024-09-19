@@ -1,5 +1,3 @@
-Here’s a sample `README.md` file for your AI chatbot with model fine-tuning project, including detailed descriptions and instructions:
-
 ---
 
 # AI Chatbot with Model Fine-tuning
@@ -154,5 +152,3 @@ Contributions are welcome! If you’d like to contribute:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
-
-This `README.md` provides a clear structure for anyone looking to understand and contribute to the project, as well as for anyone who wants to set it up locally or in a Docker environment.
