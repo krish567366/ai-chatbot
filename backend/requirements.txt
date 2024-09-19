@@ -1,0 +1,5 @@
+transformers
+datasets
+torch
+scikit-learn
+optuna              # For hyperparameter optimization (optional)
