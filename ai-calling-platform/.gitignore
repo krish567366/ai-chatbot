@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+.env
+.env.*
+.pytest_cache/
+.mypy_cache/
+.alembic/
+
+# Node
+node_modules/
+dist/
+.vite/
+coverage/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.log
+*.pid
+
+# Terraform
+.terraform/
+*.tfstate*
+crash.log
+
+# Helm
+charts/*.tgz

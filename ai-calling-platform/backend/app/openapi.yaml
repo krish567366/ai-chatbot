@@ -1,0 +1,115 @@
+openapi: 3.1.0
+info:
+  title: AI Calling Platform API
+  version: 0.1.0
+servers:
+  - url: http://localhost:8000
+paths:
+  /api/v1/agents/:
+    get:
+      operationId: listAgents
+      tags: [agents]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Agent'
+    post:
+      operationId: createAgent
+      tags: [agents]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+  /api/v1/telephony/twilio/voice/status:
+    post:
+      operationId: twilioVoiceStatus
+      tags: [telephony]
+      requestBody:
+        required: false
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  /api/v1/telephony/twilio/voice/answer:
+    post:
+      operationId: twilioVoiceAnswer
+      tags: [telephony]
+      requestBody:
+        required: false
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: TwiML
+          content:
+            text/plain:
+              schema:
+                type: string
+components:
+  schemas:
+    AgentCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        locale:
+          type: string
+          default: en-US
+        voice:
+          type: string
+          default: en-US-JennyNeural
+        asr_provider:
+          type: string
+          default: whisper
+        tts_provider:
+          type: string
+          default: azure
+        llm_provider:
+          type: string
+          default: openai
+        workflow_id:
+          type: integer
+          nullable: true
+      required: [name]
+    Workflow:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        state: { type: string, enum: [draft, published] }
+        version_tag: { type: string }
+    Agent:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        locale: { type: string }
+        voice: { type: string }
+        asr_provider: { type: string }
+        tts_provider: { type: string }
+        llm_provider: { type: string }
+        workflow:
+          $ref: '#/components/schemas/Workflow'

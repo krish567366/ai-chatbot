@@ -1,0 +1,14 @@
+image:
+  repository: ghcr.io/org/ai-calling-backend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+env:
+  APP_ENV: prod
+  DATABASE_URL: postgresql+psycopg2://app:app@postgres:5432/app
+  REDIS_URL: redis://redis:6379/0
+  PUBLIC_BASE_URL: https://api.example.com
+
+service:
+  type: ClusterIP
+  port: 80

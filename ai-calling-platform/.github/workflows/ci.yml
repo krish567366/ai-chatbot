@@ -1,0 +1,66 @@
+name: CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: app
+          POSTGRES_DB: app
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U app" --health-interval 10s --health-timeout 5s --health-retries 5
+      redis:
+        image: redis:7
+        ports: ['6379:6379']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          cd backend
+          python -m pip install -r requirements.txt
+      - name: Migrate
+        env:
+          DATABASE_URL: postgresql+psycopg2://app:app@localhost:5432/app
+        run: |
+          cd backend
+          sed -i 's@postgres:5432@localhost:5432@g' ../alembic.ini || true
+          alembic upgrade head
+      - name: Tests
+        env:
+          DATABASE_URL: postgresql+psycopg2://app:app@localhost:5432/app
+        run: |
+          cd backend
+          pytest -q
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.7.0 --activate
+      - name: Install
+        run: |
+          cd frontend
+          pnpm install --frozen-lockfile
+      - name: Build
+        run: |
+          cd frontend
+          pnpm build
