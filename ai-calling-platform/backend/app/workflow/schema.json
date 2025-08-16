@@ -1,0 +1,33 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "WorkflowDSL",
+	"type": "object",
+	"required": ["version", "nodes", "edges"],
+	"properties": {
+		"version": { "type": "string" },
+		"nodes": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"required": ["id", "type"],
+				"properties": {
+					"id": { "type": "string" },
+					"type": { "type": "string", "enum": ["Start","Say","Listen","LLM","Branch","API","CRM","Delay","Loop","HumanHandoff","Transfer","Record","Consent","End"] },
+					"config": { "type": "object" }
+				}
+			}
+		},
+		"edges": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"required": ["source", "target"],
+				"properties": {
+					"source": { "type": "string" },
+					"target": { "type": "string" },
+					"condition": { "type": ["object","null"] }
+				}
+			}
+		}
+	}
+}
