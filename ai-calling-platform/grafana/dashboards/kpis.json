@@ -1,0 +1,10 @@
+{
+  "title": "AI Calling KPIs",
+  "panels": [
+    { "type": "stat", "title": "Calls Started", "id": 1 },
+    { "type": "stat", "title": "Calls Connected", "id": 2 },
+    { "type": "stat", "title": "Avg Handle Time", "id": 3 }
+  ],
+  "schemaVersion": 38,
+  "version": 1
+}

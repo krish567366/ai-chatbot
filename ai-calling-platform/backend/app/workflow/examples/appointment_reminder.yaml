@@ -1,0 +1,17 @@
+version: v1
+nodes:
+  - id: start
+    type: Start
+  - id: say_intro
+    type: Say
+    config:
+      text: "Hello, this is a reminder that your appointment is tomorrow at 3 PM."
+  - id: listen_confirm
+    type: Listen
+    config:
+      hints: ["confirm","reschedule","agent"]
+edges:
+  - source: start
+    target: say_intro
+  - source: say_intro
+    target: listen_confirm
